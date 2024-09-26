@@ -1,0 +1,9 @@
+{
+  "request": {
+    "method": "GET",
+    "urlPattern": "/external-api/1"
+  },
+  "response": {
+    "status": 500
+  }
+}

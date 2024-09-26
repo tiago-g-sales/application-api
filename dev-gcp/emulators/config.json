@@ -1,0 +1,13 @@
+[
+  {
+    "name": "my.topic",
+    "subscriptions": [
+      {
+        "name": "my.topic.sub1"
+      },
+      {
+        "name": "my.topic.sub2"
+      }
+    ]
+  }
+]

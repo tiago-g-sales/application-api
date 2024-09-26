@@ -1,0 +1,55 @@
+version: '3'
+
+services:
+  postgres:
+    image: postgres:14-alpine
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=application-api
+    networks:
+      - dev
+
+  redis:
+    image: redis:alpine
+    ports:
+      - "6379:6379"
+    networks:
+      - dev
+
+  gcp-emulators:
+    image: google/cloud-sdk
+    command: ["gcloud", "beta", "emulators", "pubsub", "start", "--project", "application-api", "--host-port", "0.0.0.0:7001"]
+    ports:
+      - "7001:7001"
+    networks:
+      - dev
+
+  create-topics:
+    image: arkanjoms/gcp-pubsub:1
+    networks:
+      - dev
+    environment:
+      - PUBSUB_EMULATOR_HOST=gcp-emulators:7001
+      - PUBSUB_PROJECT_ID=application-api
+    depends_on:
+      - gcp-emulators
+    volumes:
+      - ./gcloud/init.json:/app/config.json
+
+  wiremock:
+    image: wiremock/wiremock:2.35.0-alpine
+    ports:
+      - "8081:8080"
+    volumes:
+      - ./wiremock:/home/wiremock
+    networks:
+      - dev
+
+networks:
+  dev:
+
+volumes:
+  pgdata:

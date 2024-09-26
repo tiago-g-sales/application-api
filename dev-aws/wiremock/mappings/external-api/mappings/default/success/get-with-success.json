@@ -1,0 +1,16 @@
+{
+  "priority": 10,
+  "request": {
+    "method": "GET",
+    "urlPattern": "/external-api/2"
+  },
+  "response": {
+    "status": 200,
+    "jsonBody": {
+      "msg": "request is ok"
+    },
+    "headers": {
+      "Content-Type": "application/json; charset=utf-8"
+    }
+  }
+}
